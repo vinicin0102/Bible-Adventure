@@ -592,6 +592,20 @@
   }
 </style>
 <script>document.documentElement.classList.add('js');</script>
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1082229937780257');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent', { content_name: 'Bible Adventure', content_type: 'product', value: 7, currency: 'USD' });
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1082229937780257&ev=PageView&noscript=1"></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 
@@ -1075,6 +1089,16 @@
     var params = window.location.search;
     document.querySelectorAll('[data-cta]').forEach(function (a) {
       a.href = CHECKOUT_URL + params;
+      // Meta Pixel: InitiateCheckout on every buy button, then go to checkout.
+      // A short delay lets the pixel request leave before the page changes.
+      a.addEventListener('click', function (e) {
+        if (!window.fbq || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        var href = a.href;
+        var go = function () { window.location.href = href; };
+        fbq('track', 'InitiateCheckout', { content_name: 'Bible Adventure', value: 7, currency: 'USD', num_items: 1 });
+        setTimeout(go, 300);
+      });
     });
 
     // Product video: only our own play button, no native controls.
@@ -1088,7 +1112,11 @@
         if (pr && pr.catch) pr.catch(function () {});
       });
       vid.addEventListener('click', function () { vid.pause(); });
-      vid.addEventListener('play', function () { frame.classList.add('playing'); });
+      var videoTracked = false;
+      vid.addEventListener('play', function () {
+        frame.classList.add('playing');
+        if (!videoTracked && window.fbq) { videoTracked = true; fbq('trackCustom', 'VideoPlay', { content_name: 'Bible Adventure explainer' }); }
+      });
       vid.addEventListener('pause', function () { frame.classList.remove('playing'); });
       vid.addEventListener('ended', function () { frame.classList.remove('playing'); vid.currentTime = 0; });
     }
