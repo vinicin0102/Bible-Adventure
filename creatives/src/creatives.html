@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bible Adventure — Ad Creatives</title>
+<style>
+  @font-face { font-family: "Baloo 2"; font-weight: 700; src: url(fonts/baloo-2-latin-700-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Baloo 2"; font-weight: 800; src: url(fonts/baloo-2-latin-800-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Nunito"; font-weight: 700; src: url(fonts/nunito-latin-700-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Nunito"; font-weight: 800; src: url(fonts/nunito-latin-800-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Nunito"; font-weight: 900; src: url(fonts/nunito-latin-900-normal.woff2) format("woff2"); }
+
+  :root {
+    --sky: #4FB3F6; --sky-deep: #2E95E0; --sky-soft: #DDF1FF;
+    --navy: #1A2456; --navy-2: #27347A;
+    --gold: #FFC93C; --gold-deep: #E9A800; --gold-soft: #FFF1C4;
+    --cream: #FFF8EC; --white: #fff;
+    --green: #4CC27E; --green-soft: #E3F7EA;
+    --orange: #FF7A1A; --orange-dark: #CF5A00;
+    --purple: #9C84EE; --purple-soft: #EEE9FF; --red-soft: #FFE8E3;
+    --muted: #4E5982;
+    --head: "Baloo 2", "Noto Color Emoji", sans-serif;
+    --body: "Nunito", "Noto Color Emoji", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--body); color: var(--navy); background: #888; }
+
+  /* Ad canvas. Feed = 1080x1350 (4:5). Story = 1080x1920 (9:16) with Meta safe zones. */
+  .ad {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    padding: 70px 70px 64px; text-align: center; margin-bottom: 40px;
+  }
+  body.story .ad { height: 1920px; padding: 250px 70px 330px; }
+  body.story .only-feed { display: none !important; }
+  body.feed .only-story { display: none !important; }
+
+  h1, h2, h3 { font-family: var(--head); font-weight: 800; line-height: 1.02; letter-spacing: -.01em; }
+  .grow { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
+
+  /* Shared pieces */
+  .brand { display: inline-flex; align-items: center; gap: 14px; font-family: var(--head); font-weight: 800; font-size: 40px; padding: 10px 26px 10px 12px; border-radius: 999px; background: var(--white); box-shadow: 0 6px 0 rgba(26,36,86,.12); }
+  .brand i { font-style: normal; width: 58px; height: 58px; border-radius: 18px; background: var(--gold); box-shadow: 0 4px 0 var(--gold-deep); display: grid; place-items: center; font-size: 32px; }
+  .footer { display: flex; flex-direction: column; align-items: center; gap: 22px; width: 100%; }
+  .offer-row { display: flex; align-items: center; justify-content: center; gap: 22px; }
+  .price { display: inline-flex; align-items: baseline; gap: 10px; background: var(--white); border: 5px dashed var(--gold); border-radius: 28px; padding: 4px 28px; font-family: var(--head); font-weight: 800; transform: rotate(-3deg); }
+  .price small { font-size: 30px; letter-spacing: .06em; color: var(--navy); }
+  .price b { font-size: 84px; line-height: 1.05; color: var(--orange); }
+  .price-note { font-weight: 900; font-size: 30px; line-height: 1.15; text-align: left; color: var(--muted); }
+  .cta { display: inline-flex; align-items: center; gap: 16px; background: var(--orange); color: #fff; font-family: var(--head); font-weight: 800; font-size: 46px; letter-spacing: .02em; text-transform: uppercase; padding: 22px 56px; border-radius: 999px; box-shadow: 0 10px 0 var(--orange-dark), 0 20px 40px rgba(255,122,26,.35); }
+  .cta.gold { background: var(--gold); color: var(--navy); box-shadow: 0 10px 0 var(--gold-deep), 0 20px 40px rgba(0,0,0,.25); }
+  .ticks { display: flex; gap: 26px; font-weight: 900; font-size: 27px; color: var(--muted); }
+  .ticks span::before { content: "✓ "; color: var(--green); }
+  .dark .ticks { color: rgba(255,255,255,.8); }
+  .dark .price-note { color: rgba(255,255,255,.85); }
+
+  .star { position: absolute; color: var(--gold); font-size: 44px; }
+  .dot { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #fff; opacity: .7; }
+  .cloud { position: absolute; }
+
+  /* Collectible story card */
+  .scard { --c1: #7FD0FF; --c2: #2B7FD1; width: 290px; border-radius: 32px; padding: 11px; background: linear-gradient(145deg, var(--gold), #FFE08A 50%, var(--gold-deep)); box-shadow: 0 12px 0 rgba(0,0,0,.14), 0 24px 50px rgba(0,0,0,.2); }
+  .scard-in { border-radius: 23px; overflow: hidden; background: #fff; }
+  .scard-art { position: relative; height: 240px; display: grid; place-items: center; font-size: 120px; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.45) 0 18%, transparent 19%), linear-gradient(160deg, var(--c1), var(--c2)); }
+  .scard-art .no { position: absolute; top: 12px; left: 14px; font-family: var(--head); font-weight: 800; font-size: 22px; color: #fff; background: rgba(0,0,0,.2); border-radius: 99px; padding: 2px 14px; }
+  .scard-body { padding: 16px 12px 20px; color: var(--navy); }
+  .scard-body h3 { font-size: 34px; line-height: 1.05; }
+  .scard-body em { display: inline-block; margin-top: 10px; font-style: normal; font-family: var(--head); font-weight: 800; font-size: 20px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 16px; border-radius: 99px; background: var(--cream); color: var(--muted); }
+  .c-noah { --c1: #7FD0FF; --c2: #2B7FD1; } .c-daniel { --c1: #FFC96B; --c2: #E0851C; }
+  .c-david { --c1: #B9E27A; --c2: #4AA54F; } .c-jonah { --c1: #7FE3E0; --c2: #2A9BB0; }
+  .c-esther { --c1: #D2BEFF; --c2: #8A6BE0; } .c-jesus { --c1: #FFD9A8; --c2: #F08C5A; }
+
+  /* Phone mockup */
+  .phone { position: relative; width: 470px; background: var(--navy); border-radius: 72px; padding: 18px; box-shadow: 0 40px 90px rgba(26,36,86,.35); }
+  .phone::before { content: ""; position: absolute; top: 28px; left: 50%; width: 130px; height: 32px; transform: translateX(-50%); background: var(--navy); border-radius: 0 0 22px 22px; z-index: 2; }
+  .screen { border-radius: 56px; overflow: hidden; background: linear-gradient(180deg, #E9F6FF, var(--cream)); padding: 58px 24px 22px; text-align: left; font-size: 22px; line-height: 1.3; }
+  .app-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .app-hi { font-family: var(--head); font-weight: 800; font-size: 30px; }
+  .app-hi small { display: block; font-family: var(--body); font-weight: 700; font-size: 18px; color: var(--muted); }
+  .app-stars { background: #fff; border-radius: 99px; padding: 6px 16px; font-weight: 900; font-size: 22px; }
+  .app-story { border-radius: 32px; overflow: hidden; background: linear-gradient(180deg, #6BC4FF, #3A9DE8); color: #fff; padding: 18px 22px 22px; margin-bottom: 16px; }
+  .app-story .meta { font-size: 17px; font-weight: 800; opacity: .92; }
+  .app-story svg { width: 100%; height: 150px; margin: 6px 0 8px; }
+  .app-story h4 { font-family: var(--head); font-size: 32px; line-height: 1.1; }
+  .app-bar { height: 12px; background: rgba(255,255,255,.35); border-radius: 99px; margin-top: 10px; overflow: hidden; }
+  .app-bar i { display: block; width: 66%; height: 100%; background: var(--gold); }
+  .app-quiz { background: #fff; border-radius: 28px; padding: 18px; margin-bottom: 16px; }
+  .app-quiz .q { font-weight: 900; font-size: 22px; margin-bottom: 10px; }
+  .app-opt { display: flex; justify-content: space-between; border: 3px solid rgba(26,36,86,.1); border-radius: 18px; padding: 8px 16px; font-weight: 800; margin-top: 9px; }
+  .app-opt.ok { border-color: var(--green); background: var(--green-soft); }
+  .app-opt.ok::after { content: "✓"; color: var(--green); font-weight: 900; }
+  .app-badge { display: flex; align-items: center; gap: 12px; background: var(--gold-soft); border-radius: 22px; padding: 12px 16px; font-weight: 900; font-size: 20px; }
+  .chip { position: absolute; display: inline-flex; align-items: center; gap: 12px; background: #fff; border-radius: 26px; padding: 14px 22px; font-family: var(--head); font-weight: 800; font-size: 32px; box-shadow: 0 8px 0 rgba(26,36,86,.1), 0 16px 40px rgba(26,36,86,.15); white-space: nowrap; }
+  .chip i { font-style: normal; width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center; font-size: 28px; }
+
+  /* ===== 1. Cartoons hook ===== */
+  .a-cartoon { background: radial-gradient(circle at 20% 10%, rgba(156,132,238,.4), transparent 45%), radial-gradient(circle at 90% 85%, rgba(79,179,246,.35), transparent 45%), linear-gradient(180deg, var(--navy), var(--navy-2)); color: #fff; }
+  .a-cartoon h1 { font-size: 92px; }
+  .a-cartoon h1 .muted { display: block; color: rgba(255,255,255,.72); font-size: 70px; margin-bottom: 18px; }
+  .a-cartoon h1 .gold { color: var(--gold); }
+  .a-cartoon .fan { position: relative; width: 860px; height: 470px; }
+  .a-cartoon .fan .scard { position: absolute; top: 30px; }
+  .a-cartoon .fan .scard:nth-child(1) { left: 20px; transform: rotate(-10deg); }
+  .a-cartoon .fan .scard:nth-child(2) { left: 285px; top: 0; transform: rotate(0deg) scale(1.08); z-index: 2; }
+  .a-cartoon .fan .scard:nth-child(3) { right: 20px; transform: rotate(10deg); }
+  .a-cartoon .sub { font-size: 38px; font-weight: 800; color: rgba(255,255,255,.9); max-width: 860px; line-height: 1.3; }
+  .a-cartoon .sub b { color: var(--gold); }
+
+  /* ===== 2. App showcase ===== */
+  .a-app { background: radial-gradient(circle at 85% 8%, rgba(255,255,255,.6) 0 110px, transparent 111px), linear-gradient(180deg, #8FD3FF 0%, #BFE6FF 55%, var(--cream) 100%); }
+  .a-app h1 { font-size: 96px; }
+  .a-app h1 .hl { color: var(--orange); }
+  .a-app .stage { position: relative; width: 940px; display: flex; justify-content: center; }
+  .a-app .stage { zoom: .9; }
+  body.feed .a-app h1 { font-size: 80px; }
+  body.feed .a-app .stage { zoom: .66; width: 1420px; }
+  .a-app .chip.c1 { top: 12%; left: 0; transform: rotate(-5deg); } .a-app .chip.c1 i { background: var(--sky-soft); }
+  .a-app .chip.c2 { top: 36%; right: 0; transform: rotate(5deg); } .a-app .chip.c2 i { background: var(--gold-soft); }
+  .a-app .chip.c3 { bottom: 4%; left: 0; transform: rotate(4deg); } .a-app .chip.c3 i { background: var(--purple-soft); }
+  .a-app .chip.c4 { bottom: 22%; right: 0; transform: rotate(-4deg); } .a-app .chip.c4 i { background: var(--red-soft); }
+
+  /* ===== 3. Versus ===== */
+  .a-vs { background: var(--cream); padding-left: 60px; padding-right: 60px; }
+  .a-vs h1 { font-size: 80px; }
+  .a-vs .cols { display: flex; flex-direction: column; gap: 26px; width: 100%; }
+  .a-vs .box { border-radius: 40px; padding: 34px 40px; text-align: left; }
+  .a-vs .old { background: #ECEEF4; border: 5px dashed #C7CBDA; }
+  .a-vs .new { background: #fff; border: 6px solid var(--gold); box-shadow: 0 12px 0 var(--gold-deep), 0 24px 60px rgba(26,36,86,.15); }
+  .a-vs .label { font-family: var(--head); font-weight: 800; font-size: 30px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+  .a-vs .old .label { color: #8B91A8; } .a-vs .new .label { color: var(--orange); }
+  .a-vs .old .words { font-family: var(--head); font-weight: 800; font-size: 60px; line-height: 1.1; color: #8B91A8; }
+  .a-vs .pills { display: flex; flex-wrap: wrap; gap: 14px; }
+  .a-vs .pills span { font-family: var(--head); font-weight: 800; font-size: 46px; padding: 6px 26px; border-radius: 999px; }
+  .a-vs .vs { align-self: center; width: 96px; height: 96px; margin: -52px 0; z-index: 2; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: var(--gold); font-family: var(--head); font-weight: 800; font-size: 38px; border: 6px solid var(--cream); }
+
+  /* ===== 4. Story cards grid ===== */
+  .a-cards { background: radial-gradient(circle at 0% 0%, rgba(255,201,60,.35), transparent 45%), radial-gradient(circle at 100% 100%, rgba(156,132,238,.25), transparent 45%), var(--cream); }
+  .a-cards h1 { font-size: 88px; }
+  .a-cards h1 .hl { color: var(--orange); }
+  .a-cards .grid { display: grid; grid-template-columns: repeat(3, 290px); gap: 30px 28px; }
+  body.feed .a-cards .grid { transform: scale(.8); margin: -70px 0; }
+  .a-cards .grid .scard:nth-child(odd) { transform: rotate(-2.5deg); }
+  .a-cards .grid .scard:nth-child(even) { transform: rotate(2.5deg); }
+
+  /* ===== 5. Quiz ===== */
+  .a-quiz { background: linear-gradient(180deg, #8FD3FF, #DDF1FF); }
+  .a-quiz .tag { font-family: var(--head); font-weight: 800; font-size: 36px; letter-spacing: .08em; text-transform: uppercase; background: var(--navy); color: var(--gold); padding: 10px 32px; border-radius: 999px; }
+  .a-quiz .card { width: 100%; background: #fff; border-radius: 48px; padding: 50px 50px 46px; box-shadow: 0 14px 0 rgba(46,149,224,.25), 0 30px 70px rgba(26,36,86,.15); text-align: left; }
+  .a-quiz .card h2 { font-size: 78px; margin: 6px 0 30px; }
+  .a-quiz .card .emoji { font-size: 90px; line-height: 1; }
+  .a-quiz .opt { display: flex; align-items: center; gap: 24px; border: 5px solid #E3E7F2; border-radius: 30px; padding: 16px 26px; margin-top: 18px; font-family: var(--head); font-weight: 800; font-size: 54px; }
+  .a-quiz .opt b { width: 72px; height: 72px; border-radius: 20px; display: grid; place-items: center; color: #fff; font-size: 42px; }
+  .a-quiz .ask { font-weight: 900; font-size: 38px; line-height: 1.25; }
+  .a-quiz .ask span { color: var(--orange); }
+
+  /* ===== 6. Snack price ===== */
+  .a-snack { background: radial-gradient(circle at 50% 45%, rgba(255,255,255,.55), transparent 55%), linear-gradient(160deg, #FFE0C4, var(--gold-soft) 60%, #FFE9A8); }
+  .a-snack h1 { font-size: 92px; }
+  .a-snack h1 .hl { color: var(--orange); }
+  .a-snack .compare { display: flex; align-items: center; gap: 40px; }
+  .a-snack .item { width: 330px; padding: 34px 20px; border-radius: 40px; background: #fff; box-shadow: 0 10px 0 rgba(26,36,86,.1); }
+  .a-snack .item .e { font-size: 110px; line-height: 1.1; }
+  .a-snack .item p { font-family: var(--head); font-weight: 800; font-size: 38px; margin-top: 10px; line-height: 1.1; }
+  .a-snack .item.win { border: 7px solid var(--orange); transform: rotate(2deg); }
+  .a-snack .or { font-family: var(--head); font-weight: 800; font-size: 50px; color: var(--muted); }
+  .a-snack .big { font-family: var(--head); font-weight: 800; font-size: 230px; line-height: .85; color: var(--orange); text-shadow: 0 10px 0 rgba(207,90,0,.18); }
+  .a-snack .big-note { font-weight: 900; font-size: 36px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .a-snack .sub { font-size: 40px; font-weight: 800; line-height: 1.3; max-width: 860px; }
+
+  /* Story (9:16) gets more room: scale the hero element up */
+  body.story .a-cartoon .fan { zoom: 1.12; }
+  body.story .a-app .chip.c3 { bottom: -4%; }
+  body.story .a-vs h1 { font-size: 92px; }
+  body.story .a-vs .old .words { font-size: 72px; }
+  body.story .a-vs .pills span { font-size: 56px; }
+  body.story .a-vs .box { padding: 44px 44px; }
+  body.story .a-quiz .card h2 { font-size: 90px; }
+  body.story .a-quiz .opt { font-size: 62px; padding: 22px 30px; }
+  body.story .a-snack h1 { font-size: 104px; }
+  body.story .a-snack .compare { zoom: 1.12; }
+  body.story .a-snack .big { font-size: 290px; }
+</style>
+</head>
+<body class="feed">
+
+<!-- 1 · CARTOON HOOK -->
+<section class="ad a-cartoon dark" id="01-cartoon-hook">
+  <span class="dot" style="top:9%;left:12%"></span><span class="dot" style="top:16%;left:84%"></span><span class="dot" style="top:48%;left:6%"></span>
+  <span class="dot" style="top:58%;left:93%"></span><span class="dot" style="top:80%;left:30%"></span><span class="dot" style="top:74%;left:75%"></span>
+  <span class="star" style="top:5%;right:9%">✦</span><span class="star" style="top:45%;left:4%;font-size:30px">✦</span>
+  <h1><span class="muted">They know every cartoon character…</span>But do they know <span class="gold">Noah, David &amp; Esther?</span></h1>
+  <div class="grow">
+    <div class="fan">
+      <div class="scard c-noah"><div class="scard-in"><div class="scard-art"><span class="no">01</span>🌊</div><div class="scard-body"><h3>Noah's Ark</h3><em>Obedience</em></div></div></div>
+      <div class="scard c-david"><div class="scard-in"><div class="scard-art"><span class="no">03</span>🌟</div><div class="scard-body"><h3>David &amp; Goliath</h3><em>Courage</em></div></div></div>
+      <div class="scard c-esther"><div class="scard-in"><div class="scard-art"><span class="no">05</span>👑</div><div class="scard-body"><h3>Queen Esther</h3><em>Bravery</em></div></div></div>
+    </div>
+  </div>
+  <div class="footer">
+    <p class="sub"><b>Bible Adventure</b> is a fun, interactive mini app that helps kids discover the stories of the Bible.</p>
+    <div class="offer-row"><span class="price"><small>ONLY</small><b>$7</b></span><span class="price-note">One-time<br>payment</span></div>
+    <span class="cta gold">Start the adventure →</span>
+  </div>
+</section>
+
+<!-- 2 · APP SHOWCASE -->
+<section class="ad a-app" id="02-app-showcase">
+  <svg class="cloud only-story" style="top:170px;left:-60px;width:260px" viewBox="0 0 200 80"><path fill="#fff" d="M40 70h130a28 28 0 0 0 0-56 40 40 0 0 0-72-6A30 30 0 0 0 40 70z"/></svg>
+  <span class="brand"><i>📖</i>Bible Adventure</span>
+  <h1 style="margin-top:24px">Bible stories your child will <span class="hl">actually enjoy</span></h1>
+  <div class="grow">
+    <div class="stage">
+      <div class="phone"><div class="screen">
+        <div class="app-head"><div class="app-hi">Hi, Explorer! 👋<small>Ready for today's adventure?</small></div><div class="app-stars">⭐ 12</div></div>
+        <div class="app-story">
+          <div class="meta">TODAY'S STORY</div>
+          <svg viewBox="0 0 220 90"><circle cx="190" cy="18" r="11" fill="#FFE27A"/><path d="M20 22c6-8 18-8 22 0 8-2 12 4 10 9H14c-3-5 1-10 6-9z" fill="#fff" opacity=".9"/><path d="M40 58 L180 58 L166 76 L54 76 Z" fill="#9A5B2E"/><rect x="70" y="38" width="80" height="20" rx="3" fill="#C27A3E"/><path d="M64 40 L110 24 L156 40 Z" fill="#E0A15E"/><rect x="86" y="44" width="10" height="9" rx="2" fill="#6B3A17"/><rect x="124" y="44" width="10" height="9" rx="2" fill="#6B3A17"/><path d="M0 76 Q 18 68 36 76 T 72 76 T 108 76 T 144 76 T 180 76 T 220 76 V90 H0Z" fill="#1F6FC0"/><path d="M0 82 Q 18 75 36 82 T 72 82 T 108 82 T 144 82 T 180 82 T 220 82 V90 H0Z" fill="#185FA8"/></svg>
+          <h4>Noah's Ark 🌈</h4><div class="meta">Chapter 2 of 3 · Obedience &amp; Faith</div><div class="app-bar"><i></i></div>
+        </div>
+        <div class="app-quiz"><div class="q">⭐ Quick quiz: Who built the big ark?</div><div class="app-opt ok">Noah</div><div class="app-opt">Jonah</div><div class="app-opt">David</div></div>
+        <div class="app-badge">🏅 New badge: Faithful Friend!</div>
+      </div></div>
+      <span class="chip c1"><i>📖</i>Bible Stories</span>
+      <span class="chip c2"><i>⭐</i>Fun Quizzes</span>
+      <span class="chip c3"><i>👑</i>Bible Characters</span>
+      <span class="chip c4"><i>❤️</i>Christian Values</span>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="offer-row"><span class="price"><small>ONLY</small><b>$7</b></span><span class="price-note">One-time<br>payment</span></div>
+    <span class="cta">Start the Bible Adventure →</span>
+  </div>
+</section>
+
+<!-- 3 · VERSUS -->
+<section class="ad a-vs" id="03-versus">
+  <span class="brand"><i>📖</i>Bible Adventure</span>
+  <h1 style="margin-top:20px">What if Bible time felt like <span style="color:var(--sky-deep)">adventure time?</span></h1>
+  <div class="grow">
+    <div class="cols">
+      <div class="box old"><div class="label">The usual way 😴</div><div class="words">Sit down. Read. Listen. Try to remember.</div></div>
+      <div class="vs">VS</div>
+      <div class="box new"><div class="label">The Bible Adventure way 🤩</div>
+        <div class="pills"><span style="background:var(--sky-soft)">🧭 Explore</span><span style="background:var(--gold-soft)">🔎 Discover</span><span style="background:var(--purple-soft)">⭐ Answer</span><span style="background:var(--green-soft)">💡 Learn</span><span style="background:#FFE6D2">🎉 Have fun</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="offer-row"><span class="price"><small>ONLY</small><b>$7</b></span><span class="price-note">Interactive Bible<br>mini app for kids</span></div>
+    <span class="cta">Let my child explore →</span>
+  </div>
+</section>
+
+<!-- 4 · STORY CARDS -->
+<section class="ad a-cards" id="04-story-cards">
+  <span class="brand"><i>📖</i>Bible Adventure</span>
+  <h1 style="margin-top:20px">Bible heroes your child can <span class="hl">explore &amp; collect</span></h1>
+  <div class="grow">
+    <div class="grid">
+      <div class="scard c-noah"><div class="scard-in"><div class="scard-art"><span class="no">01</span>🌊</div><div class="scard-body"><h3>Noah's Ark</h3><em>Obedience</em></div></div></div>
+      <div class="scard c-daniel"><div class="scard-in"><div class="scard-art"><span class="no">02</span>🦁</div><div class="scard-body"><h3>Daniel &amp; the Lions</h3><em>Faith</em></div></div></div>
+      <div class="scard c-david"><div class="scard-in"><div class="scard-art"><span class="no">03</span>🌟</div><div class="scard-body"><h3>David &amp; Goliath</h3><em>Courage</em></div></div></div>
+      <div class="scard c-jonah"><div class="scard-in"><div class="scard-art"><span class="no">04</span>🐟</div><div class="scard-body"><h3>Jonah &amp; the Fish</h3><em>2nd chances</em></div></div></div>
+      <div class="scard c-esther"><div class="scard-in"><div class="scard-art"><span class="no">05</span>👑</div><div class="scard-body"><h3>Queen Esther</h3><em>Bravery</em></div></div></div>
+      <div class="scard c-jesus"><div class="scard-in"><div class="scard-art"><span class="no">06</span>✝️</div><div class="scard-body"><h3>The Story of Jesus</h3><em>Love</em></div></div></div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="ticks"><span>Stories</span><span>Quizzes</span><span>Characters</span><span>Values</span></div>
+    <div class="offer-row"><span class="price"><small>ONLY</small><b>$7</b></span><span class="cta">Explore the stories →</span></div>
+  </div>
+</section>
+
+<!-- 5 · QUIZ -->
+<section class="ad a-quiz" id="05-quiz">
+  <span class="tag">⭐ Bible quiz for kids</span>
+  <div class="grow">
+    <div class="card">
+      <div class="emoji">🐟🌊</div>
+      <h2>Who was swallowed by a great fish?</h2>
+      <div class="opt"><b style="background:var(--sky)">A</b>Moses</div>
+      <div class="opt"><b style="background:var(--orange)">B</b>Jonah</div>
+      <div class="opt"><b style="background:var(--purple)">C</b>Noah</div>
+    </div>
+  </div>
+  <div class="footer">
+    <p class="ask">Ask your child, then share their answer below 👇<br><span>Fun quizzes like this are inside Bible Adventure.</span></p>
+    <div class="offer-row"><span class="price"><small>ONLY</small><b>$7</b></span><span class="cta">Play more →</span></div>
+  </div>
+</section>
+
+<!-- 6 · SNACK PRICE -->
+<section class="ad a-snack" id="06-snack-price">
+  <span class="brand"><i>📖</i>Bible Adventure</span>
+  <h1 style="margin-top:20px">For less than a <span class="hl">family snack…</span></h1>
+  <div class="grow" style="flex-direction:column;gap:34px">
+    <div class="compare">
+      <div class="item"><div class="e">🍿🥤</div><p>Gone in<br>10 minutes</p></div>
+      <div class="or">or</div>
+      <div class="item win"><div class="e">📖✨</div><p>A Bible adventure<br>for your child</p></div>
+    </div>
+    <div><div class="big">$7</div><div class="big-note">One-time payment</div></div>
+  </div>
+  <div class="footer">
+    <p class="sub">Give your child a fun new way to discover the stories of the Bible.</p>
+    <span class="cta">Start the adventure →</span>
+  </div>
+</section>
+
+</body>
+</html>
