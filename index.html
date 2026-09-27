@@ -267,6 +267,31 @@
   .meet h3 { font-size: clamp(30px, 7vw, 40px); font-weight: 800; color: var(--gold); margin-bottom: 10px; }
   .meet p { color: rgba(255,255,255,.88); font-size: 18px; }
 
+  /* ---------- Product video ---------- */
+  .video-block { max-width: 320px; margin: 0 auto 32px; }
+  .video-label { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px; font-family: var(--head); font-weight: 800; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+  .video-frame {
+    position: relative; aspect-ratio: 608 / 1080; max-width: 100%; border-radius: 28px; overflow: hidden;
+    background: #000; border: 5px solid var(--gold); box-shadow: 0 8px 0 var(--gold-deep), 0 24px 60px rgba(0,0,0,.35);
+  }
+  .video-frame video { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; }
+  .video-play {
+    position: absolute; inset: 0; display: grid; place-items: center; border: 0; cursor: pointer;
+    background: linear-gradient(180deg, rgba(26,36,86,0) 40%, rgba(26,36,86,.55)); color: var(--white);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .video-play span {
+    width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; padding-left: 6px;
+    background: var(--orange); font-size: 34px; box-shadow: 0 6px 0 var(--orange-dark), 0 0 0 10px rgba(255,255,255,.25);
+    transition: transform .15s ease;
+  }
+  .video-play:hover span { transform: scale(1.06); }
+  .video-play:focus-visible { outline: 4px solid var(--gold); outline-offset: -8px; }
+  .video-play small { position: absolute; bottom: 18px; left: 0; right: 0; font-family: var(--head); font-weight: 800; font-size: 16px; letter-spacing: .04em; }
+  .video-frame.playing .video-play { display: none; }
+  .watch-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-weight: 800; font-size: 15px; color: var(--navy); text-decoration: none; border-bottom: 2px solid var(--gold); }
+  .watch-link b { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: var(--gold); font-size: 11px; padding-left: 2px; }
+
   /* ---------- How it works ---------- */
   .how { background: var(--white); }
   .steps { position: relative; display: grid; gap: 22px; margin-top: 40px; }
@@ -600,6 +625,7 @@
       </div>
       <a href="https://pay.hotmart.com/L107791315O" class="btn pulse" data-cta>Start the Bible Adventure — $7 <span class="arrow" aria-hidden="true">→</span></a>
       <div class="reassure"><span>Instant access</span><span>Child-friendly</span><span>Fun &amp; educational</span></div>
+      <a class="watch-link" href="#video"><b aria-hidden="true">▶</b>Watch the 40-second video</a>
     </div>
 
     <!-- App mockup -->
@@ -725,6 +751,14 @@
       <div class="meet-logo" aria-hidden="true">📖</div>
       <h3>Meet Bible Adventure.</h3>
       <p>An interactive mini app designed to help children discover Bible stories and Christian values through a fun and engaging experience.</p>
+    </div>
+
+    <div class="video-block" id="video">
+      <div class="video-label">▶ See it in action</div>
+      <div class="video-frame">
+        <video id="product-video" src="assets/bible-adventure-video.mp4" poster="assets/bible-adventure-video-poster.jpg" preload="none" playsinline></video>
+        <button class="video-play" type="button" aria-label="Play the Bible Adventure video (40 seconds)"><span aria-hidden="true">▶</span><small>Watch how it works · 0:40</small></button>
+      </div>
     </div>
 
     <a href="https://pay.hotmart.com/L107791315O" class="btn btn-gold" data-cta>Discover Bible Adventure <span class="arrow" aria-hidden="true">→</span></a>
@@ -1065,6 +1099,18 @@
     document.querySelectorAll('[data-cta]').forEach(function (a) {
       a.href = CHECKOUT_URL + params;
     });
+
+    // Product video: tap the big play button to start with sound, then show native controls
+    var vid = document.getElementById('product-video');
+    var playBtn = document.querySelector('.video-play');
+    if (vid && playBtn) {
+      playBtn.addEventListener('click', function () {
+        vid.controls = true;
+        vid.closest('.video-frame').classList.add('playing');
+        var pr = vid.play();
+        if (pr && pr.catch) pr.catch(function () {});
+      });
+    }
 
     var y = document.getElementById('year');
     if (y) y.textContent = new Date().getFullYear();
