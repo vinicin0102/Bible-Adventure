@@ -268,11 +268,12 @@
   .meet p { color: rgba(255,255,255,.88); font-size: 18px; }
 
   /* ---------- Product video ---------- */
-  .video-block { max-width: 320px; margin: 0 auto 32px; }
+  .video-block { max-width: 230px; margin: 0 auto 32px; }
+  @media (min-width: 720px) { .video-block { max-width: 280px; } }
   .video-label { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px; font-family: var(--head); font-weight: 800; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
   .video-frame {
-    position: relative; aspect-ratio: 608 / 1080; max-width: 100%; border-radius: 28px; overflow: hidden;
-    background: #000; border: 5px solid var(--gold); box-shadow: 0 8px 0 var(--gold-deep), 0 24px 60px rgba(0,0,0,.35);
+    position: relative; aspect-ratio: 608 / 1080; max-width: 100%; border-radius: 22px; overflow: hidden;
+    background: #000; border: 4px solid var(--gold); box-shadow: 0 8px 0 var(--gold-deep), 0 24px 60px rgba(0,0,0,.35);
   }
   .video-frame video { cursor: pointer; display: block; width: 100%; height: 100%; object-fit: cover; background: #000; }
   .video-play {
@@ -281,13 +282,13 @@
     -webkit-tap-highlight-color: transparent;
   }
   .video-play span {
-    width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; padding-left: 6px;
-    background: var(--orange); font-size: 34px; box-shadow: 0 6px 0 var(--orange-dark), 0 0 0 10px rgba(255,255,255,.25);
+    width: 68px; height: 68px; border-radius: 50%; display: grid; place-items: center; padding-left: 5px;
+    background: var(--orange); font-size: 26px; box-shadow: 0 6px 0 var(--orange-dark), 0 0 0 10px rgba(255,255,255,.25);
     transition: transform .15s ease;
   }
   .video-play:hover span { transform: scale(1.06); }
   .video-play:focus-visible { outline: 4px solid var(--gold); outline-offset: -8px; }
-  .video-play small { position: absolute; bottom: 18px; left: 0; right: 0; font-family: var(--head); font-weight: 800; font-size: 16px; letter-spacing: .04em; }
+  .video-play small { position: absolute; bottom: 14px; left: 0; right: 0; font-family: var(--head); font-weight: 800; font-size: 14px; letter-spacing: .04em; }
   .video-frame.playing .video-play { display: none; }
   .watch-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-weight: 800; font-size: 15px; color: var(--navy); text-decoration: none; border-bottom: 2px solid var(--gold); }
   .watch-link b { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: var(--gold); font-size: 11px; padding-left: 2px; }
